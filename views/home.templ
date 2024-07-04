@@ -1,0 +1,43 @@
+package views;
+
+import (
+	"strings"
+	"jobsearch/tables"
+)
+
+css box() {
+	display: flex;
+	align-items: start;
+	margin-bottom: 20px;
+}
+
+templ Index(jobs []tables.Job) {
+	@Boilerplate() {
+		<div>
+		for _, job := range jobs {
+				<div class={box()}>
+					<input type="checkbox" checked?={job.Done} />
+					<div>
+						{job.Name}
+						<div>
+							<a href={templ.URL(job.Url)}>Apply</a>
+						</div>
+						if job.DescriptionUrl.Valid {
+							<div>
+								<a href={templ.URL(job.DescriptionUrl.String)}>Read Description</a>
+							</div>
+						}
+						if job.Tags.Valid {
+							<ul>
+								for _, tag := range strings.Split(job.Tags.String, ",") {
+									<li>{tag}</li>
+								}
+							</ul>
+						}
+					</div>
+				</div>
+		}
+		</div>
+	}
+}
+
