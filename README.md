@@ -22,13 +22,6 @@ It can toggle the jobs I've applied to and they're persisted on the DB.
 
  - User Authentication / Sessions
 
-### Tools Used:
-
- * [htmx](https://htmx.org)
- * [templ](https://templ.guide/)
- * [sqlx](https://github.com/jmoiron/sqlx)
- * [pq](https://github.com/lib/pq)
-
 ### Commands
 
 ```sh
@@ -41,3 +34,15 @@ $ jobsearch installdb
 ```
 installs the db, currently this isn't programmable via cli, so it connects to
 localhost, port 5432, user postgres, password postgres.
+
+```
+$ ./run-dev.sh
+```
+Runs the server and also runs the templ generate command.
+
+### Tools Used:
+
+ * [htmx](https://htmx.org)
+ * [templ](https://templ.guide/)
+ * [sqlx](https://github.com/jmoiron/sqlx)
+ * [pq](https://github.com/lib/pq)
