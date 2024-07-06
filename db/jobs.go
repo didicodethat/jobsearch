@@ -1,7 +1,8 @@
-package db;
+package db
 
-import(
+import (
 	"database/sql"
+	"log"
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -16,14 +17,16 @@ type Job struct {
 
 func GetAllJobs() ([]Job, error) {
 	jobs := []Job{}
-	err := db.Select(&jobs, `SELECT id, name, url, description_url, tags, done from jobs`) 
+	err := db.Select(&jobs, `SELECT id, name, url, description_url, tags, done from jobs ORDER BY id ASC`) 
 	if err != nil {
 		return nil, err
 	}
 	return jobs, nil
 }
 
+
 func ToggleJobDone(id uint64) error {
-	_, err := db.Exec("UPDATE jobs SET done = not done WHERE id=$1",id)
-	return err
+	log.Printf("UPDATE jobs SET done = not done WHERE id=%d", id)
+	db.MustExec("UPDATE jobs SET done = not done WHERE id=$1", id)
+	return nil
 }

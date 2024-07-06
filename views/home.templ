@@ -17,7 +17,7 @@ templ Index(jobs []db.Job) {
 		<div>
 		for _, job := range jobs {
 				<div class={box()}>
-					<input hx-patch={fmt.Sprintf("/job/%d", job.Id)} hx-action="change" type="checkbox" checked?={job.Done} />
+					<input hx-patch={fmt.Sprintf("/job/%d/done", job.Id)} hx-action="change" type="checkbox" checked?={job.Done} />
 					<div>
 						{job.Name}
 						<div>
