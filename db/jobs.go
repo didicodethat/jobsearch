@@ -17,7 +17,7 @@ type Job struct {
 
 func GetAllJobs() ([]Job, error) {
 	jobs := []Job{}
-	err := db.Select(&jobs, `SELECT id, name, url, description_url, tags, done from jobs ORDER BY id ASC`) 
+	err := db.Select(&jobs, `SELECT id, name, url, description_url, tags, done from jobs ORDER BY done,id ASC`) 
 	if err != nil {
 		return nil, err
 	}

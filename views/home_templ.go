@@ -44,6 +44,10 @@ func Index(jobs []db.Job) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n\t\t.job-position:has(input:checked) {\n\t\t\tbackground: #999;\n\t\t}\n\t\t.job-position:hover {\n\t\t\tbackground: #BBB;\n\t\t}\n\t</style>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		templ_7745c5c3_Var2 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -56,12 +60,8 @@ func Index(jobs []db.Job) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			for _, job := range jobs {
-				var templ_7745c5c3_Var3 = []any{box()}
+				var templ_7745c5c3_Var3 = []any{"job-position", box()}
 				templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -86,7 +86,7 @@ func Index(jobs []db.Job) templ.Component {
 				var templ_7745c5c3_Var5 string
 				templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/job/%d/done", job.Id))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 20, Col: 57}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 27, Col: 57}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 				if templ_7745c5c3_Err != nil {
@@ -109,13 +109,13 @@ func Index(jobs []db.Job) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(job.Name)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 22, Col: 15}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 29, Col: 15}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><a href=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><a target=\"_blank\" rel=\"nofollow\" href=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -129,7 +129,7 @@ func Index(jobs []db.Job) templ.Component {
 					return templ_7745c5c3_Err
 				}
 				if job.DescriptionUrl.Valid {
-					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><a href=\"")
+					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><a target=\"_blank\" rel=\"nofollow\" href=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -156,7 +156,7 @@ func Index(jobs []db.Job) templ.Component {
 						var templ_7745c5c3_Var9 string
 						templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(tag)
 						if templ_7745c5c3_Err != nil {
-							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 34, Col: 17}
+							return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 41, Col: 17}
 						}
 						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 						if templ_7745c5c3_Err != nil {
@@ -176,10 +176,6 @@ func Index(jobs []db.Job) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
 			}
 			return templ_7745c5c3_Err
 		})

@@ -13,19 +13,26 @@ css box() {
 }
 
 templ Index(jobs []db.Job) {
+	<style>
+		.job-position:has(input:checked) {
+			background: #999;
+		}
+		.job-position:hover {
+			background: #BBB;
+		}
+	</style>
 	@Boilerplate() {
-		<div>
 		for _, job := range jobs {
-				<div class={box()}>
+				<div class={"job-position", box()}>
 					<input hx-patch={fmt.Sprintf("/job/%d/done", job.Id)} hx-action="change" type="checkbox" checked?={job.Done} />
 					<div>
 						{job.Name}
 						<div>
-							<a href={templ.URL(job.Url)}>Apply</a>
+							<a target="_blank" rel="nofollow" href={templ.URL(job.Url)}>Apply</a>
 						</div>
 						if job.DescriptionUrl.Valid {
 							<div>
-								<a href={templ.URL(job.DescriptionUrl.String)}>Read Description</a>
+								<a target="_blank" rel="nofollow" href={templ.URL(job.DescriptionUrl.String)}>Read Description</a>
 							</div>
 						}
 						if job.Tags.Valid {
@@ -38,7 +45,6 @@ templ Index(jobs []db.Job) {
 					</div>
 				</div>
 		}
-		</div>
 	}
 }
 
