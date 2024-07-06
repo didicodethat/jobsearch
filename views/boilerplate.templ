@@ -3,9 +3,11 @@ package views;
 templ Boilerplate() {
 	<html language="en">
 		<head>
-				<title>Job Search</title>
-
+			<title>Job Search</title>
 		</head>
-		<body> {children...} </body>
+		<body> 
+			<script src="static/htmx.min.js"></script>
+			{children...}
+		</body>
 	</html>
 }

@@ -19,9 +19,11 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
+		log.Println(jobs)
 		views.Index(jobs).Render(req.Context(), res)
 	})
 	http.HandleFunc("PATCH /job/{id}", func(res http.ResponseWriter, req *http.Request) {
+		log.Println("/job/{id}")
 		id, err := strconv.ParseUint(req.PathValue("id"), 10, 64)
 		if err != nil {
 			res.WriteHeader(http.StatusBadRequest)
@@ -41,6 +43,8 @@ func main() {
 		}
 	})
 	//http.Handle("/", templ.Handler(index))
+	fileServer := http.FileServer(http.Dir("./static/"))
+	http.Handle("GET /static/", http.StripPrefix("/static/", fileServer))
 	fmt.Println("Starting Server on 8942")
 	http.ListenAndServe(":8942", nil)
 }

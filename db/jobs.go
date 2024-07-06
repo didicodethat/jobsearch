@@ -23,12 +23,7 @@ func GetAllJobs() ([]Job, error) {
 	return jobs, nil
 }
 
-func ToggleJobDone(uint64 id) error {
-	_, err := db.NamedExec(
-		`UPDATE jobs SET jobs.done = not jobs.done WHERE id=:id`, 
-		map[string]interface{}{
-			"id": id
-		}
-	)
+func ToggleJobDone(id uint64) error {
+	_, err := db.Exec("UPDATE jobs SET done = not done WHERE id=$1",id)
 	return err
 }
