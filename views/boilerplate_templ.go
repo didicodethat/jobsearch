@@ -26,7 +26,7 @@ func Boilerplate() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html language=\"en\"><head><title>Job Search</title></head><body><script src=\"static/htmx.min.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html language=\"en\"><head><title>Job Search</title><style>\n\t\t\t\tbody {\n\t\t\t\t\tbackground: #f0d9b6;\n\t\t\t\t}\n\t\t\t\thtml {\n\t\t\t\t\tbox-sizing: border-box;\n\t\t\t\t}\n\t\t\t\t*, *:before, *:after {\n\t\t\t\t\tbox-sizing: inherit;\n\t\t\t\t}\n\t\t\t</style></head><body><script src=\"static/htmx.min.js\"></script><script src=\"static/response-targets.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -4,9 +4,21 @@ templ Boilerplate() {
 	<html language="en">
 		<head>
 			<title>Job Search</title>
+			<style>
+				body {
+					background: #f0d9b6;
+				}
+				html {
+					box-sizing: border-box;
+				}
+				*, *:before, *:after {
+					box-sizing: inherit;
+				}
+			</style>
 		</head>
 		<body> 
 			<script src="static/htmx.min.js"></script>
+			<script src="static/response-targets.js"></script>
 			{children...}
 		</body>
 	</html>

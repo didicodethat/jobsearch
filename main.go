@@ -15,16 +15,16 @@ func main() {
 		Usage: "TODO",
 		Commands: []*cli.Command{
 			{
-				Name: "dev",
+				Name:    "dev",
 				Aliases: []string{"d"},
-				Usage: "Runs the server",
+				Usage:   "Runs the server",
 				Action: func(ctx *cli.Context) error {
 					routes.Init()
 					return nil
 				},
 			},
 			{
-				Name: "installdb",
+				Name:  "installdb",
 				Usage: "Installs the database",
 				Action: func(ctx *cli.Context) error {
 					db.Install()
