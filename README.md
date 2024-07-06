@@ -15,7 +15,7 @@ It can toggle the jobs I've applied to and they're persisted on the DB.
 
 #### Planned Features
 
- - Adding new positions
+ - (DONE) Adding new positions
  - Editing current positions
 
 #### Not planned but would be good
