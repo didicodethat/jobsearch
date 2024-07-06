@@ -2,7 +2,7 @@ package views;
 
 import (
 	"strings"
-	"jobsearch/tables"
+	"jobsearch/db"
 )
 
 css box() {
@@ -11,7 +11,7 @@ css box() {
 	margin-bottom: 20px;
 }
 
-templ Index(jobs []tables.Job) {
+templ Index(jobs []db.Job) {
 	@Boilerplate() {
 		<div>
 		for _, job := range jobs {
