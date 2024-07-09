@@ -15,7 +15,7 @@ It can toggle the jobs I've applied to and they're persisted on the DB.
 
 ### Preview
 
-[Screenshot of the application](https://github.com/didicodethat/jobsearch/blob/main/static/screenshot.png)
+![Screenshot of the application](https://github.com/didicodethat/jobsearch/blob/main/static/screenshot.png?raw=true)
 
 #### Planned Features
 
