@@ -6,30 +6,34 @@ import (
 	"fmt"
 )
 
-css box() {
-	display: flex;
-	width: 48%;
-	align-items: start;
-	margin-bottom: 20px;
-	padding: 30px;
-	background: #f5d5f5;
-}
-
 templ JobItem (job db.Job) {
 	<style scoped>
+		.job-position {
+			display: flex;
+			width: 48%;
+			align-items: start;
+			margin-bottom: 20px;
+			padding: 30px;
+			background: #f5d5f5;
+		}
 		.job-position:has(input:checked) {
 			background: #b5a3d1;
 		}
 		.job-position:hover {
 			background: #cdaddb;
 		}
+
 	</style>
-	<div class={"job-position", box()}>
+	<div class={"job-position"}>
 		<input hx-patch={fmt.Sprintf("/job/%d/done", job.Id)} hx-action="change" type="checkbox" checked?={job.Done} />
 		<div>
 			{job.Name}
 			<div>
-				<a target="_blank" rel="nofollow" href={templ.URL(job.Url)}>Apply</a>
+				if strings.Contains(job.Url, "@") {
+					<a target="_blank" rel="nofollow" href={templ.URL(strings.Join([]string{"mailto:",job.Url}, ""))}>Apply</a>
+				} else {
+					<a target="_blank" rel="nofollow" href={templ.URL(job.Url)}>Apply</a>
+				}
 			</div>
 			if job.DescriptionUrl.Valid {
 				<div>
@@ -58,28 +62,72 @@ templ Index(jobs []db.Job) {
 				flex-wrap: wrap;
 				justify-content: space-around;
 			}
+			.job-form {	
+				background: #fff;
+				font-family: 'Krub';
+				color: #685238;
+				font-size: 18px;
+				width: 330px;
+				padding: 16px 14px;
+			}
+			.job-form>div {
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			.job-form input[type=text] {
+				font-family: 'Noto Serif';
+				font-size: 14px;
+				border: none;
+				border-bottom: 2px solid #E0BFA0;
+				background: #FBFAFA;
+				min-height: 26px;
+				padding: 2px 7px;
+				width: 100%;
+			}
+			.job-form input[type=submit] {
+				background: #FFCD9E;
+				color: #685238;
+				height: 26px;
+				border: none;
+				font-size: 14px;
+				width: 100%;
+				margin-top: 10px;
+			}
+			.job-form input[type=submit]:hover {
+				background: #FFB68D;
+			}
+			.job-form input[type=submit]:active {
+				background: #FD823D;
+				color: #431E09;
+			}
+			.form-cols {
+				display: flex;
+				justify-content: space-around;
+			}
 		</style>
-		<form hx-post="/jobs" hx-target="#jobs" hx-target-error="#form-error" hx-swap="afterbegin">
+		<form class="job-form" hx-post="/jobs" hx-target="#jobs" hx-target-error="#form-error" hx-swap="afterbegin">
 			<style scoped>
 				label {
 					display: block;
 				}
 			</style>
 			<div>
-				<label for="name">Position Name | Place</label>
+				<label for="name">Position</label>
 				<input id="name" name="name" type="text"/>
 			</div>
-			<div>
-				<label for="url">Apply URL/Email</label>
-				<input id="url" name="url" type="text"/>
-			</div>
-			<div>
-				<label for="description_url"> URL for the position's description AKA where I found it</label>
-				<input id="description_url" name="description_url" type="text"/>
+			<div class="form-cols">
+				<div>
+					<label for="url">Apply link</label>
+					<input id="url" name="url" type="text"/>
+				</div>
+				<div>
+					<label for="description_url">Description Link</label>
+					<input id="description_url" name="description_url" type="text"/>
+				</div>
 			</div>
 			<div>
 				<label for="tags">Tags</label>
-				<textarea id="tags" name="tags"></textarea>
+				<input id="tags" type="text" name="tags"/>
 			</div>
 			<input type="submit" value="Save"/>
 		</form>

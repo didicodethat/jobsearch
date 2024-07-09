@@ -26,7 +26,7 @@ func Boilerplate() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html language=\"en\"><head><title>Job Search</title><style>\n\t\t\t\tbody {\n\t\t\t\t\tbackground: #f0d9b6;\n\t\t\t\t}\n\t\t\t\thtml {\n\t\t\t\t\tbox-sizing: border-box;\n\t\t\t\t}\n\t\t\t\t*, *:before, *:after {\n\t\t\t\t\tbox-sizing: inherit;\n\t\t\t\t}\n\t\t\t</style></head><body><script src=\"static/htmx.min.js\"></script><script src=\"static/response-targets.js\"></script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<html language=\"en\"><head><title>Job Search</title><link rel=\"preconnect\" href=\"https://fonts.googleapis.com\"><link rel=\"preconnect\" href=\"https://fonts.gstatic.com\" crossorigin><link href=\"https://fonts.googleapis.com/css2?family=Krub:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;display=swap\" rel=\"stylesheet\"><style>\n\t\t\t\tbody {\n\t\t\t\t\tbackground: #FFF1E0;\n\t\t\t\t}\n\t\t\t\thtml {\n\t\t\t\t\tbox-sizing: border-box;\n\t\t\t\t}\n\t\t\t\t*, *:before, *:after {\n\t\t\t\t\tbox-sizing: inherit;\n\t\t\t\t}\n\t\t\t</style></head><body><script src=\"static/htmx.min.js\"></script><script src=\"static/response-targets.js\"></script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

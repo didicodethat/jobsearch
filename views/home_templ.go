@@ -14,21 +14,6 @@ import (
 	"strings"
 )
 
-func box() templ.CSSClass {
-	templ_7745c5c3_CSSBuilder := templruntime.GetBuilder()
-	templ_7745c5c3_CSSBuilder.WriteString(`display:flex;`)
-	templ_7745c5c3_CSSBuilder.WriteString(`width:48%;`)
-	templ_7745c5c3_CSSBuilder.WriteString(`align-items:start;`)
-	templ_7745c5c3_CSSBuilder.WriteString(`margin-bottom:20px;`)
-	templ_7745c5c3_CSSBuilder.WriteString(`padding:30px;`)
-	templ_7745c5c3_CSSBuilder.WriteString(`background:#f5d5f5;`)
-	templ_7745c5c3_CSSID := templ.CSSID(`box`, templ_7745c5c3_CSSBuilder.String())
-	return templ.ComponentCSSClass{
-		ID:    templ_7745c5c3_CSSID,
-		Class: templ.SafeCSS(`.` + templ_7745c5c3_CSSID + `{` + templ_7745c5c3_CSSBuilder.String() + `}`),
-	}
-}
-
 func JobItem(job db.Job) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -47,11 +32,11 @@ func JobItem(job db.Job) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style scoped>\n\t\t.job-position:has(input:checked) {\n\t\t\tbackground: #b5a3d1;\n\t\t}\n\t\t.job-position:hover {\n\t\t\tbackground: #cdaddb;\n\t\t}\n\t</style>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style scoped>\n\t\t.job-position {\n\t\t\tdisplay: flex;\n\t\t\twidth: 48%;\n\t\t\talign-items: start;\n\t\t\tmargin-bottom: 20px;\n\t\t\tpadding: 30px;\n\t\t\tbackground: #f5d5f5;\n\t\t}\n\t\t.job-position:has(input:checked) {\n\t\t\tbackground: #b5a3d1;\n\t\t}\n\t\t.job-position:hover {\n\t\t\tbackground: #cdaddb;\n\t\t}\n\n\t</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"job-position", box()}
+		var templ_7745c5c3_Var2 = []any{"job-position"}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -105,16 +90,40 @@ func JobItem(job db.Job) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><a target=\"_blank\" rel=\"nofollow\" href=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var6 templ.SafeURL = templ.URL(job.Url)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var6)))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		if strings.Contains(job.Url, "@") {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a target=\"_blank\" rel=\"nofollow\" href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 templ.SafeURL = templ.URL(strings.Join([]string{"mailto:", job.Url}, ""))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var6)))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Apply</a>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a target=\"_blank\" rel=\"nofollow\" href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 templ.SafeURL = templ.URL(job.Url)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var7)))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Apply</a>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Apply</a></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -123,8 +132,8 @@ func JobItem(job db.Job) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 templ.SafeURL = templ.URL(job.DescriptionUrl.String)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var7)))
+			var templ_7745c5c3_Var8 templ.SafeURL = templ.URL(job.DescriptionUrl.String)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var8)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -143,12 +152,12 @@ func JobItem(job db.Job) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				var templ_7745c5c3_Var8 string
-				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(tag)
+				var templ_7745c5c3_Var9 string
+				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(tag)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 42, Col: 14}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 46, Col: 14}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -166,12 +175,12 @@ func JobItem(job db.Job) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/job/%d", job.Id))
+		var templ_7745c5c3_Var10 string
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/job/%d", job.Id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 47, Col: 162}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 51, Col: 162}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -196,12 +205,12 @@ func Index(jobs []db.Job) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var10 == nil {
-			templ_7745c5c3_Var10 = templ.NopComponent
+		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var11 == nil {
+			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Var11 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Var12 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 			if !templ_7745c5c3_IsBuffer {
@@ -213,7 +222,7 @@ func Index(jobs []db.Job) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n\t\t\t#jobs {\n\t\t\t\tdisplay: flex;\n\t\t\t\tflex-wrap: wrap;\n\t\t\t\tjustify-content: space-around;\n\t\t\t}\n\t\t</style> <form hx-post=\"/jobs\" hx-target=\"#jobs\" hx-target-error=\"#form-error\" hx-swap=\"afterbegin\"><style scoped>\n\t\t\t\tlabel {\n\t\t\t\t\tdisplay: block;\n\t\t\t\t}\n\t\t\t</style><div><label for=\"name\">Position Name | Place</label> <input id=\"name\" name=\"name\" type=\"text\"></div><div><label for=\"url\">Apply URL/Email</label> <input id=\"url\" name=\"url\" type=\"text\"></div><div><label for=\"description_url\">URL for the position's description AKA where I found it</label> <input id=\"description_url\" name=\"description_url\" type=\"text\"></div><div><label for=\"tags\">Tags</label> <textarea id=\"tags\" name=\"tags\"></textarea></div><input type=\"submit\" value=\"Save\"></form><div id=\"form-error\"></div><div id=\"jobs\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n\t\t\t#jobs {\n\t\t\t\tdisplay: flex;\n\t\t\t\tflex-wrap: wrap;\n\t\t\t\tjustify-content: space-around;\n\t\t\t}\n\t\t\t.job-form {\t\n\t\t\t\tbackground: #fff;\n\t\t\t\tfont-family: 'Krub';\n\t\t\t\tcolor: #685238;\n\t\t\t\tfont-size: 18px;\n\t\t\t\twidth: 330px;\n\t\t\t\tpadding: 16px 14px;\n\t\t\t}\n\t\t\t.job-form>div {\n\t\t\t\tmargin-top: 5px;\n\t\t\t\tmargin-bottom: 5px;\n\t\t\t}\n\t\t\t.job-form input[type=text] {\n\t\t\t\tfont-family: 'Noto Serif';\n\t\t\t\tfont-size: 14px;\n\t\t\t\tborder: none;\n\t\t\t\tborder-bottom: 2px solid #E0BFA0;\n\t\t\t\tbackground: #FBFAFA;\n\t\t\t\tmin-height: 26px;\n\t\t\t\tpadding: 2px 7px;\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t.job-form input[type=submit] {\n\t\t\t\tbackground: #FFCD9E;\n\t\t\t\tcolor: #685238;\n\t\t\t\theight: 26px;\n\t\t\t\tborder: none;\n\t\t\t\tfont-size: 14px;\n\t\t\t\twidth: 100%;\n\t\t\t\tmargin-top: 10px;\n\t\t\t}\n\t\t\t.job-form input[type=submit]:hover {\n\t\t\t\tbackground: #FFB68D;\n\t\t\t}\n\t\t\t.job-form input[type=submit]:active {\n\t\t\t\tbackground: #FD823D;\n\t\t\t\tcolor: #431E09;\n\t\t\t}\n\t\t\t.form-cols {\n\t\t\t\tdisplay: flex;\n\t\t\t\tjustify-content: space-around;\n\t\t\t}\n\t\t</style> <form class=\"job-form\" hx-post=\"/jobs\" hx-target=\"#jobs\" hx-target-error=\"#form-error\" hx-swap=\"afterbegin\"><style scoped>\n\t\t\t\tlabel {\n\t\t\t\t\tdisplay: block;\n\t\t\t\t}\n\t\t\t</style><div><label for=\"name\">Position</label> <input id=\"name\" name=\"name\" type=\"text\"></div><div class=\"form-cols\"><div><label for=\"url\">Apply link</label> <input id=\"url\" name=\"url\" type=\"text\"></div><div><label for=\"description_url\">Description Link</label> <input id=\"description_url\" name=\"description_url\" type=\"text\"></div></div><div><label for=\"tags\">Tags</label> <input id=\"tags\" type=\"text\" name=\"tags\"></div><input type=\"submit\" value=\"Save\"></form><div id=\"form-error\"></div><div id=\"jobs\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -229,7 +238,7 @@ func Index(jobs []db.Job) templ.Component {
 			}
 			return templ_7745c5c3_Err
 		})
-		templ_7745c5c3_Err = Boilerplate().Render(templ.WithChildren(ctx, templ_7745c5c3_Var11), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Boilerplate().Render(templ.WithChildren(ctx, templ_7745c5c3_Var12), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
