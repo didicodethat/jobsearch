@@ -32,11 +32,11 @@ func JobItem(job db.Job) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style scoped>\n\t\t.job-position {\n\t\t\tdisplay: flex;\n\t\t\twidth: 48%;\n\t\t\talign-items: start;\n\t\t\tmargin-bottom: 20px;\n\t\t\tpadding: 30px;\n\t\t\tbackground: #f5d5f5;\n\t\t}\n\t\t.job-position:has(input:checked) {\n\t\t\tbackground: #b5a3d1;\n\t\t}\n\t\t.job-position:hover {\n\t\t\tbackground: #cdaddb;\n\t\t}\n\n\t</style>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style scoped>\n\t\t.job-position {\n\t\t\twidth: 48%;\n\t\t\talign-items: start;\n\t\t\tmargin-bottom: 20px;\n\t\t\tpadding: 15px;\n\t\t\tbackground: #fff;\n\t\t}\n\t\t.done {\n\t\t\tbackground: #F3F6FC;\n\t\t}\n\t\t.button-group {\n\t\t\tdisplay: flex;\n\t\t}\n\t\t.button {\n\t\t\tborder: none;\n\t\t\tfont-family: 'Noto Serif';\n\t\t\tfont-size: 0.9rem;\n\t\t\tdisplay: block;\n\t\t\tbackground: #FFCD9E;\n\t\t\tcolor: #685238;\n\t\t\ttransition: all 0.3s ease-out;\n\t\t\tmin-height: 26px;\n\t\t\tpadding: 3px;\n\t\t\ttext-decoration: none;\n\t\t\tmargin-right: 3px;\n\t\t\tmargin-bottom: 8px;\n\t\t}\n\t\t.button:hover {\n\t\t\tbackground: #FFB68D;\n\t\t}\n\t\t.button:active {\n\t\t\tbackground: #FD823D;\n\t\t\tcolor: #431E09;\n\t\t}\n\t\t.tags {\n\t\t\tdisplay: flex;\n\t\t\tflex-wrap: wrap;\n\t\t}\n\t\t.tag {\n\t\t\tmargin-bottom: 8px;\n\t\t\tfont-family: 'Noto Serif';\n\t\t\tdisplay: block;\n\t\t\tcolor: #fff;\n\t\t\tfont-size: 0.8rem;\n\t\t\tmin-heihgt: 23px;\n\t\t\tpadding: 3px 5px;\n\t\t\tmargin-right: 3px;\n\t\t\tbackground: #5063A8;\n\t\t}\n\t\t.done-tag {\n\t\t\tdisplay: inline-block;\n\t\t\tbackground: #77CE85;\n\t\t}\n\t\t.cta {\n\t\t\twidth: 100%;\n\t\t}\n\t</style>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{"job-position"}
+		var templ_7745c5c3_Var2 = []any{"job-position", templ.KV("done", job.Done)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -54,137 +54,148 @@ func JobItem(job db.Job) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><input hx-patch=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		if job.Done {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"tag done-tag\">Done</div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/job/%d/done", job.Id))
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(job.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 28, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 72, Col: 12}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" hx-action=\"change\" type=\"checkbox\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if job.Done {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" checked")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(job.Name)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 30, Col: 12}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"button-group\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if strings.Contains(job.Url, "@") {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a target=\"_blank\" rel=\"nofollow\" href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a target=\"_blank\" class=\"button\" rel=\"nofollow\" href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 templ.SafeURL = templ.URL(strings.Join([]string{"mailto:", job.Url}, ""))
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var6)))
+			var templ_7745c5c3_Var5 templ.SafeURL = templ.URL(strings.Join([]string{"mailto:", job.Url}, ""))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var5)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Apply</a>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Apply</a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a target=\"_blank\" rel=\"nofollow\" href=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a target=\"_blank\" class=\"button\" rel=\"nofollow\" href=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 templ.SafeURL = templ.URL(job.Url)
+			var templ_7745c5c3_Var6 templ.SafeURL = templ.URL(job.Url)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var6)))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Apply</a> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if job.DescriptionUrl.Valid {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<a class=\"button\" target=\"_blank\" rel=\"nofollow\" href=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 templ.SafeURL = templ.URL(job.DescriptionUrl.String)
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var7)))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Apply</a>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Read Description</a> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"button\" hx-confirm=\"Are you sure you want to delete this position?\" hx-target=\"closest .job-position\" hx-swap=\"delete\" hx-delete=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if job.DescriptionUrl.Valid {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div><a target=\"_blank\" rel=\"nofollow\" href=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var8 templ.SafeURL = templ.URL(job.DescriptionUrl.String)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(string(templ_7745c5c3_Var8)))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Read Description</a></div>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/job/%d", job.Id))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 82, Col: 178}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Delete</button></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
 		if job.Tags.Valid {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<ul>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"tags\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			for _, tag := range strings.Split(job.Tags.String, ",") {
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<li>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"tag\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(tag)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 46, Col: 14}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 89, Col: 26}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</li>")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</ul>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div><button hx-confirm=\"Are you sure you want to delete this position?\" hx-target=\"closest .job-position\" hx-swap=\"delete\" hx-delete=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button class=\"button cta\" hx-confirm=\"Have you applied to this position?\" hx-patch=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/job/%d", job.Id))
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("/job/%d/done", job.Id))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 51, Col: 162}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `views/home.templ`, Line: 93, Col: 123}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">Delete</button></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if job.Done {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Enable\t")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		} else {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("Finish")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -222,7 +233,7 @@ func Index(jobs []db.Job) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n\t\t\t#jobs {\n\t\t\t\tdisplay: flex;\n\t\t\t\tflex-wrap: wrap;\n\t\t\t\tjustify-content: space-around;\n\t\t\t}\n\t\t\t.job-form {\t\n\t\t\t\tbackground: #fff;\n\t\t\t\tfont-family: 'Krub';\n\t\t\t\tcolor: #685238;\n\t\t\t\tfont-size: 18px;\n\t\t\t\twidth: 330px;\n\t\t\t\tpadding: 16px 14px;\n\t\t\t}\n\t\t\t.job-form>div {\n\t\t\t\tmargin-top: 5px;\n\t\t\t\tmargin-bottom: 5px;\n\t\t\t}\n\t\t\t.job-form input[type=text] {\n\t\t\t\tfont-family: 'Noto Serif';\n\t\t\t\tfont-size: 14px;\n\t\t\t\tborder: none;\n\t\t\t\tborder-bottom: 2px solid #E0BFA0;\n\t\t\t\tbackground: #FBFAFA;\n\t\t\t\tmin-height: 26px;\n\t\t\t\tpadding: 2px 7px;\n\t\t\t\twidth: 100%;\n\t\t\t}\n\t\t\t.job-form input[type=submit] {\n\t\t\t\tbackground: #FFCD9E;\n\t\t\t\tcolor: #685238;\n\t\t\t\theight: 26px;\n\t\t\t\tborder: none;\n\t\t\t\tfont-size: 14px;\n\t\t\t\twidth: 100%;\n\t\t\t\tmargin-top: 10px;\n\t\t\t}\n\t\t\t.job-form input[type=submit]:hover {\n\t\t\t\tbackground: #FFB68D;\n\t\t\t}\n\t\t\t.job-form input[type=submit]:active {\n\t\t\t\tbackground: #FD823D;\n\t\t\t\tcolor: #431E09;\n\t\t\t}\n\t\t\t.form-cols {\n\t\t\t\tdisplay: flex;\n\t\t\t\tjustify-content: space-around;\n\t\t\t}\n\t\t</style> <form class=\"job-form\" hx-post=\"/jobs\" hx-target=\"#jobs\" hx-target-error=\"#form-error\" hx-swap=\"afterbegin\"><style scoped>\n\t\t\t\tlabel {\n\t\t\t\t\tdisplay: block;\n\t\t\t\t}\n\t\t\t</style><div><label for=\"name\">Position</label> <input id=\"name\" name=\"name\" type=\"text\"></div><div class=\"form-cols\"><div><label for=\"url\">Apply link</label> <input id=\"url\" name=\"url\" type=\"text\"></div><div><label for=\"description_url\">Description Link</label> <input id=\"description_url\" name=\"description_url\" type=\"text\"></div></div><div><label for=\"tags\">Tags</label> <input id=\"tags\" type=\"text\" name=\"tags\"></div><input type=\"submit\" value=\"Save\"></form><div id=\"form-error\"></div><div id=\"jobs\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<style>\n\t\t\t#jobs {\n\t\t\t\tdisplay: flex;\n\t\t\t\tflex-wrap: wrap;\n\t\t\t\tjustify-content: space-around;\n\t\t\t}\n\t\t\t.job-form {\t\n\t\t\t\tbackground: #fff;\n\t\t\t\tfont-family: 'Krub';\n\t\t\t\tcolor: #685238;\n\t\t\t\tfont-size: 18px;\n\t\t\t\twidth: 330px;\n\t\t\t\tpadding: 16px 14px;\n\t\t\t}\n\t\t\t.job-form>div {\n\t\t\t\tmargin-top: 5px;\n\t\t\t\tmargin-bottom: 5px;\n\t\t\t}\n\t\t\t.job-form input[type=text] {\n\t\t\t\tfont-family: 'Noto Serif';\n\t\t\t\tfont-size: 14px;\n\t\t\t\tborder: none;\n\t\t\t\tborder-bottom: 2px solid #E0BFA0;\n\t\t\t\tbackground: #FBFAFA;\n\t\t\t\tmin-height: 26px;\n\t\t\t\tpadding: 2px 7px;\n\t\t\t\twidth: 100%;\n\t\t\t\ttransition: all 0.3s ease-out;\n\t\t\t}\n\t\t\t.job-form input[type=text]:hover, .job-form input[type=text]:focus{\n\t\t\t\tbackground: #FFF6D7;\n\t\t\t\toutline: none;\n\t\t\t}\n\t\t\t.job-form input[type=submit] {\n\t\t\t\tbackground: #FFCD9E;\n\t\t\t\tcolor: #685238;\n\t\t\t\theight: 26px;\n\t\t\t\tborder: none;\n\t\t\t\tfont-size: 14px;\n\t\t\t\twidth: 100%;\n\t\t\t\tmargin-top: 10px;\n\t\t\t\ttransition: all 0.3s ease-out;\n\t\t\t}\n\t\t\t.job-form input[type=submit]:hover {\n\t\t\t\tbackground: #FFB68D;\n\t\t\t}\n\t\t\t.job-form input[type=submit]:active {\n\t\t\t\tbackground: #FD823D;\n\t\t\t\tcolor: #431E09;\n\t\t\t}\n\t\t\t.form-cols {\n\t\t\t\tdisplay: flex;\n\t\t\t\tjustify-content: space-between;\n\t\t\t}\n\t\t\t.form-cols>div {\n\t\t\t\twidth: 47%;\n\t\t\t}\n\t\t</style> <div style=\"display: flex; justify-content: center\"><form class=\"job-form\" hx-post=\"/jobs\" hx-target=\"#jobs\" hx-target-error=\"#form-error\" hx-swap=\"afterbegin\"><style scoped>\n\t\t\t\t\tlabel {\n\t\t\t\t\t\tdisplay: block;\n\t\t\t\t\t}\n\t\t\t\t</style><div><label for=\"name\">Position</label> <input id=\"name\" name=\"name\" type=\"text\"></div><div class=\"form-cols\"><div><label for=\"url\">Apply link</label> <input id=\"url\" name=\"url\" type=\"text\"></div><div><label for=\"description_url\">Description Link</label> <input id=\"description_url\" name=\"description_url\" type=\"text\"></div></div><div><label for=\"tags\">Tags</label> <input id=\"tags\" type=\"text\" name=\"tags\"></div><input type=\"submit\" value=\"Save\"></form></div><div id=\"form-error\"></div><div id=\"jobs\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

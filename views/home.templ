@@ -9,47 +9,93 @@ import (
 templ JobItem (job db.Job) {
 	<style scoped>
 		.job-position {
-			display: flex;
 			width: 48%;
 			align-items: start;
 			margin-bottom: 20px;
-			padding: 30px;
-			background: #f5d5f5;
+			padding: 15px;
+			background: #fff;
 		}
-		.job-position:has(input:checked) {
-			background: #b5a3d1;
+		.done {
+			background: #F3F6FC;
 		}
-		.job-position:hover {
-			background: #cdaddb;
+		.button-group {
+			display: flex;
 		}
-
+		.button {
+			border: none;
+			font-family: 'Noto Serif';
+			font-size: 0.9rem;
+			display: block;
+			background: #FFCD9E;
+			color: #685238;
+			transition: all 0.3s ease-out;
+			min-height: 26px;
+			padding: 3px;
+			text-decoration: none;
+			margin-right: 3px;
+			margin-bottom: 8px;
+		}
+		.button:hover {
+			background: #FFB68D;
+		}
+		.button:active {
+			background: #FD823D;
+			color: #431E09;
+		}
+		.tags {
+			display: flex;
+			flex-wrap: wrap;
+		}
+		.tag {
+			margin-bottom: 8px;
+			font-family: 'Noto Serif';
+			display: block;
+			color: #fff;
+			font-size: 0.8rem;
+			min-heihgt: 23px;
+			padding: 3px 5px;
+			margin-right: 3px;
+			background: #5063A8;
+		}
+		.done-tag {
+			display: inline-block;
+			background: #77CE85;
+		}
+		.cta {
+			width: 100%;
+		}
 	</style>
-	<div class={"job-position"}>
-		<input hx-patch={fmt.Sprintf("/job/%d/done", job.Id)} hx-action="change" type="checkbox" checked?={job.Done} />
-		<div>
+	<div class={"job-position", templ.KV("done", job.Done)}>
+		if job.Done {
+			<div class="tag done-tag">Done</div>
+		}
 			{job.Name}
-			<div>
-				if strings.Contains(job.Url, "@") {
-					<a target="_blank" rel="nofollow" href={templ.URL(strings.Join([]string{"mailto:",job.Url}, ""))}>Apply</a>
-				} else {
-					<a target="_blank" rel="nofollow" href={templ.URL(job.Url)}>Apply</a>
+		<div class="button-group">
+			if strings.Contains(job.Url, "@") {
+				<a target="_blank" class="button" rel="nofollow" href={templ.URL(strings.Join([]string{"mailto:",job.Url}, ""))}>Apply</a>
+			} else {
+				<a target="_blank" class="button" rel="nofollow" href={templ.URL(job.Url)}>Apply</a>
+			}
+		if job.DescriptionUrl.Valid {
+				<a  class="button" target="_blank" rel="nofollow" href={templ.URL(job.DescriptionUrl.String)}>Read Description</a>
+			}
+			<button class="button" hx-confirm="Are you sure you want to delete this position?" hx-target="closest .job-position" hx-swap="delete" hx-delete={fmt.Sprintf("/job/%d", job.Id)}>
+				Delete
+			</button>
+		</div>
+		if job.Tags.Valid {
+			<div class="tags">
+				for _, tag := range strings.Split(job.Tags.String, ",") {
+					<div class="tag">{tag}</div>
 				}
 			</div>
-			if job.DescriptionUrl.Valid {
-				<div>
-					<a target="_blank" rel="nofollow" href={templ.URL(job.DescriptionUrl.String)}>Read Description</a>
-				</div>
+		}
+			<button class="button cta" hx-confirm="Have you applied to this position?" hx-patch={fmt.Sprintf("/job/%d/done", job.Id)}>
+			if job.Done {
+				Enable	
+			} else {
+				Finish
 			}
-			if job.Tags.Valid {
-				<ul>
-					for _, tag := range strings.Split(job.Tags.String, ",") {
-						<li>{tag}</li>
-					}
-				</ul>
-			}
-		</div>
-		<button hx-confirm="Are you sure you want to delete this position?" hx-target="closest .job-position" hx-swap="delete" hx-delete={fmt.Sprintf("/job/%d", job.Id)}>
-			Delete
 		</button>
 	</div>
 }
@@ -83,6 +129,11 @@ templ Index(jobs []db.Job) {
 				min-height: 26px;
 				padding: 2px 7px;
 				width: 100%;
+				transition: all 0.3s ease-out;
+			}
+			.job-form input[type=text]:hover, .job-form input[type=text]:focus{
+				background: #FFF6D7;
+				outline: none;
 			}
 			.job-form input[type=submit] {
 				background: #FFCD9E;
@@ -92,6 +143,7 @@ templ Index(jobs []db.Job) {
 				font-size: 14px;
 				width: 100%;
 				margin-top: 10px;
+				transition: all 0.3s ease-out;
 			}
 			.job-form input[type=submit]:hover {
 				background: #FFB68D;
@@ -102,35 +154,40 @@ templ Index(jobs []db.Job) {
 			}
 			.form-cols {
 				display: flex;
-				justify-content: space-around;
+				justify-content: space-between;
+			}
+			.form-cols>div {
+				width: 47%;
 			}
 		</style>
-		<form class="job-form" hx-post="/jobs" hx-target="#jobs" hx-target-error="#form-error" hx-swap="afterbegin">
-			<style scoped>
-				label {
-					display: block;
-				}
-			</style>
-			<div>
-				<label for="name">Position</label>
-				<input id="name" name="name" type="text"/>
-			</div>
-			<div class="form-cols">
+		<div style="display: flex; justify-content: center">
+			<form class="job-form" hx-post="/jobs" hx-target="#jobs" hx-target-error="#form-error" hx-swap="afterbegin">
+				<style scoped>
+					label {
+						display: block;
+					}
+				</style>
 				<div>
-					<label for="url">Apply link</label>
-					<input id="url" name="url" type="text"/>
+					<label for="name">Position</label>
+					<input id="name" name="name" type="text"/>
+				</div>
+				<div class="form-cols">
+					<div>
+						<label for="url">Apply link</label>
+						<input id="url" name="url" type="text"/>
+					</div>
+					<div>
+						<label for="description_url">Description Link</label>
+						<input id="description_url" name="description_url" type="text"/>
+					</div>
 				</div>
 				<div>
-					<label for="description_url">Description Link</label>
-					<input id="description_url" name="description_url" type="text"/>
+					<label for="tags">Tags</label>
+					<input id="tags" type="text" name="tags"/>
 				</div>
-			</div>
-			<div>
-				<label for="tags">Tags</label>
-				<input id="tags" type="text" name="tags"/>
-			</div>
-			<input type="submit" value="Save"/>
-		</form>
+				<input type="submit" value="Save"/>
+			</form>
+		</div>
 		<div id="form-error"></div>
 		<div id="jobs">
 			for _, job := range jobs {
